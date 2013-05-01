@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Convert WebM to Vorbis
+Comment=Extracts Ogg Vorbis audio from WebM
+Icon=media-record.png
+Exec=/home/ubuntu/Code/webm2vorbis/webm2vorbis %F
+MimeType=video/webm;audio/webm

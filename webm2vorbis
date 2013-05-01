@@ -1,0 +1,39 @@
+#!/bin/bash
+
+function show-usage {
+  cat <<EOF
+Usage: $0 path
+
+Extract Vorbis audio from WebM
+
+   path        Path to WebM file
+   --help      Show this help text
+EOF
+
+  exit -1
+}
+
+function warn {
+  echo "$0: $@" 1>&2
+}
+
+function dependency-check {
+  local dep="$1"
+
+  # From http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script/677212
+  command -v "$dep" >/dev/null 2>&1 || { warn "dependency $dep not found, aborting" >&2; exit 1; }
+}
+
+function convert-to-vorbis {
+  local in_path="$1"
+  local out_path="$( dirname "$in_path" )/$( basename "$in_path" .webm ).ogg"
+
+  avconv -i "$in_path" -vn -acodec copy "$out_path"
+}
+
+if [ $# -ne 1 -o '--help' == "$1" ]; then
+  show-usage
+else
+  dependency-check  'avconv'
+  convert-to-vorbis "$1"
+fi
