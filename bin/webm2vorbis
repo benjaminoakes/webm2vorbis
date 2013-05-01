@@ -31,9 +31,12 @@ function convert-to-vorbis {
   avconv -i "$in_path" -vn -acodec copy "$out_path"
 }
 
-if [ $# -ne 1 -o '--help' == "$1" ]; then
+if [ '--help' == "$1" ]; then
   show-usage
 else
-  dependency-check  'avconv'
-  convert-to-vorbis "$1"
+  dependency-check 'avconv'
+
+  for webm_file in "$@"; do
+    convert-to-vorbis "$webm_file"
+  done
 fi
